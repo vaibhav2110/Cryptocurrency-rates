@@ -1,16 +1,118 @@
-
-<button type="button" class="btn btn-info" 
-        (click)="openModal(template)">Create template modal</button>
-
+<div *ngIf="errMsg">{{errMsg}}</div>
+<div class="mycontent" *ngIf="coins" infiniteScroll [infiniteScrollDistance]="2"
+		    [infiniteScrollThrottle]="50"
+		    (scrolled)="onScroll()">
+            <div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="hidden-xs">
+					<table>
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">Name</th>
+								<th class="column2">Symbol</th>
+								<th class="column3">Market Cap</th>
+								<th class="column4">Price</th>
+								<th class="column5">Circulating Supply</th>
+                                <th class="column6">% 1h</th>
+                                <th class="column7">% 24h</th>
+                                <th class="column8">% 7d</th>
+							</tr>
+						</thead>
+						<tbody>
+								<tr *ngFor="let coin of coins" (click)="openModal(template, coin.id)">
+									<td class="column1">{{coin.name}}</td>
+									<td class="column2">{{coin.symbol}}</td>
+									<td class="column3">${{coin.market_cap_usd}}</td>
+									<td class="column4">${{coin.price_usd}}</td>
+									<td class="column5">{{coin.available_supply}}</td>
+                                    <td style.color="{{coin.percent_change_1h<0 ? '#f53d3d': '#32db64'}}" class="column6">{{coin.percent_change_1h}}%</td>
+                                    <td style.color="{{coin.percent_change_24h<0 ? '#f53d3d': '#32db64'}}" class="column7">{{coin.percent_change_24h}}%</td>
+                                    <td style.color="{{coin.percent_change_7d<0 ? '#f53d3d': '#32db64'}}" class="column8">{{coin.percent_change_7d}}%</td>
+								</tr>
+						</tbody>
+					</table>
+                </div>
+                <div class="visible-xs">
+					<table class="table">
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">Name</th>
+								<th class="column4">Price</th>
+                                <th class="column6">% 1h</th>
+							</tr>
+						</thead>
+						<tbody>
+								<tr *ngFor="let coin of coins" (click)="openModal(template, coin.id)">
+									<td class="column1">{{coin.name}}<span style="position: absolute; font-size: 0.6em; top: 70%; left: 15%;">{{coin.symbol}}</span></td>
+									<td class="column4">${{coin.price_usd}}</td>
+                                    <td style.color="{{coin.percent_change_1h<0 ? '#f53d3d': '#32db64'}}" class="column6">{{coin.percent_change_1h}}%</td>
+								</tr>
+						</tbody>
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
+    <div *ngIf="coinDetail" style="background-color: #4158d0 !important; border-top-left-radius: 6px; border-top-right-radius: 6px" class="modal-header">
+        <h2 style="color: white !important" class="modal-title header">{{coinDetail[0].name}}</h2>
+        <p style="color: white !important">{{coinDetail[0].symbol}}</p>
         <button type="button" class="close pull-right" 
-                aria-label="Close" (click)="modalRef.hide()">
+                aria-label="Close" style="color: white; margin-top: -70px !important" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
-        This is a modal.
+        <div *ngIf="coinDetail">
+            <table>
+						<tbody>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Rank</td>
+                                <td>{{coinDetail[0].rank}}</td>
+                            </tr>
+                            <tr>
+								<td style="color: black; font-size: 1.1em; font-family: sans-serif">Price(USD)</td>
+                                <td>${{coinDetail[0].price_usd}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Price(BTC)</td>
+                                <td>{{coinDetail[0].price_btc}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Market Cap</td>
+                                <td>${{coinDetail[0].market_cap_usd}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Available Supply</td>
+                                <td>{{coinDetail[0].available_supply}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Total Supply</td>
+                                <td>{{coinDetail[0].total_supply}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Max Supply</td>
+                                <td>{{coinDetail[0].max_supply}}</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Percentage Change (1hr)</td>
+                                <td style.color="{{coinDetail[0].percent_change_1h<0 ? '#f53d3d': '#32db64'}}">{{coinDetail[0].percent_change_1h}}%</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Percentage Change (24hr)</td>
+                                <td style.color="{{coinDetail[0].percent_change_24h<0 ? '#f53d3d': '#32db64'}}">{{coinDetail[0].percent_change_24h}}%</td>
+                            </tr>
+                            <tr>
+                                <td style="color: black; font-size: 1.1em; font-family: sans-serif">Percentage Change (7D)</td>
+                                <td style.color="{{coinDetail[0].percent_change_7d<0 ? '#f53d3d': '#32db64'}}">{{coinDetail[0].percent_change_7d}}%</td>
+                            </tr>
+                            
+								
+						</tbody>
+					</table>
+        </div>
     </div>
 </ng-template>
+<ng4-loading-spinner> </ng4-loading-spinner>

@@ -12,14 +12,21 @@ export class CoinServiceService {
     private errorHandler: ErrorHandlerService) { }
     
   getCoins(): Observable<Coins[]> {
-      return this.http.get("https://api.coinmarketcap.com/v1/ticker/")
+      return this.http.get("https://api.coinmarketcap.com/v1/ticker/?limit=500")
       .catch(error => {
           return this.errorHandler.handleError(error);
       });
   }
+    getMoreCoins(start: number): Observable<Coins[]> {
+      return this.http.get("https://api.coinmarketcap.com/v1/ticker/?start="+start+"&limit=500")
+      .catch(error => {
+          return this.errorHandler.handleError(error);
+      });
+  }
+  
     
     getCoinDetails(id: string): Observable<CoinDetail>{
-        return this.http.get("https://api.coinmarketcap.com/v1/ticker/"+id)
+        return this.http.get("https://api.coinmarketcap.com/v1/ticker/"+id+"/")
         .catch(error => {
           return this.errorHandler.handleError(error);
       });
