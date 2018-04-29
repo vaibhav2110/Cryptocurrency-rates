@@ -1,5 +1,7 @@
 # HortariApp
 
+Live Demo [CryptoRate](http://cryptorate.tk.s3-website.us-east-2.amazonaws.com/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
 ## Development server

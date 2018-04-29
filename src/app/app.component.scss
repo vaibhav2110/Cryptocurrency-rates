@@ -1,4 +1,7 @@
-
+body{
+    width: 100vw;
+    position: relative;
+}
 .limiter {
   width: 100%;
   margin: 0 auto;
@@ -85,6 +88,13 @@ table td.r, table th.r {
   line-height: 1.2;
   font-weight: unset;
 }
+.table100-head2 th{
+  font-family: OpenSans-Regular;
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
 
 tbody tr:nth-child(even) {
   background-color: #f5f5f5;
@@ -102,6 +112,12 @@ tbody tr:hover {
   color: #555555;
   background-color: #f5f5f5;
   cursor: pointer;
+}
+.table_sm{
+    width:80vw !important;
+    td{
+        font-size: 0.8em;
+    }
 }
 
 
